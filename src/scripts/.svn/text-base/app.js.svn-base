@@ -1,0 +1,61 @@
+var ƒ = require('hdom');
+
+var Logo        = require('./modules/logo')(ƒ);
+var Shares      = require('./modules/share')(ƒ);
+var Flip        = require('./modules/flip')(ƒ);
+var Lightbox    = require('./modules/lightbox')(ƒ);
+var VideoPlayer = require('./modules/videoplayer')(ƒ);
+var Youtube     = require('./modules/youtube')(ƒ);
+var Confetti    = require('./modules/confetti')(ƒ);
+var MobileNav   = require('./modules/nav')(ƒ);
+var Tracking    = require('./modules/tracking')(ƒ);
+var Parallax    = require('./modules/parallax')(ƒ);
+var TwitGallery = require('./modules/tweetgallery')(ƒ);
+var TitanScroll = require('./modules/titanscroll')(ƒ);
+var Inspiration = require('./modules/inspiration')(ƒ);
+var isIE = /Trident\/(\d)/g.test(navigator.userAgent);
+
+ƒ(function() {
+    // Logo.init();
+    Shares.init();
+    //Confetti.init();
+    Tracking.init();
+
+    if(isIE) ƒ('html').addClass('IE');
+
+    if(ƒ('body').hasClass('desktop') && !isIE ){
+        Parallax.init();
+    }
+
+    if(ƒ('body').hasClass('desktop')){
+        Logo.init();
+    }
+
+    if(ƒ('body').hasClass('index')){
+        Youtube.init();
+    }
+
+    if(ƒ('body').hasClass('mobile')){
+        MobileNav.init();
+    }
+
+    if(ƒ('body').hasClass('create')){
+        Flip.init();
+        Lightbox.init();
+        TitanScroll.init();
+    }
+
+    if(ƒ('body').hasClass('events')){
+        Flip.init();
+        // Lightbox.init();
+    }
+
+    if(ƒ('body').hasClass('inspire')){
+        Inspiration.init();
+        VideoPlayer.init();
+        TwitGallery.init();
+
+    }
+
+  
+});
