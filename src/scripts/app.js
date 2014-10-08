@@ -1,4 +1,14 @@
-var _ = require('underscore');
+var $ = require('jquery');
 
-var underscore = require('./intro/underscore')(_);
-var functionAbstraction = require('./intro/function-abstraction')(_);
+
+var Scope = require('./scope/scope.js');
+var Hoisting = require('./scope/hoisting.js');
+var This = require('./scope/this.js');
+
+This();
+
+
+
+
+
+

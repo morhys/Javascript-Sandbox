@@ -15,10 +15,10 @@ var onerror = function(err) {
 gulp.task('scripts', function() {
     gulp.src(['./src/scripts/app.js'])
         .pipe(browserify({
-            shim: {
-                underscore : {
-                    path: './src/scripts/lib/underscore.js',
-                    exports: '_'
+            shim: {          
+                jquery: {
+                    path: './src/scripts/lib/jquery.js',
+                    exports: '$'
                 }
             }
         }))
