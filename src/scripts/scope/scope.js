@@ -1,5 +1,12 @@
 module.exports = function() { 
 
-	console.log("working")
+	function init(){
+		console.log("initialized");
+	}
+
+
+	return {
+		init: init
+	}
 
 }

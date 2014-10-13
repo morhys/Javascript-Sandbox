@@ -5,16 +5,17 @@ var $ = require('jquery');
 var Scope = require('./scope/scope.js');
 var Hoisting = require('./scope/hoisting.js');
 var This = require('./scope/this.js');
+var WebGL = require('./webgl/webgl.js');
 
-This();
-
-
-
+var Problem1 = require('./problems/1');
 
 
 
 
-},{"./scope/hoisting.js":4,"./scope/scope.js":5,"./scope/this.js":6,"jquery":"1vzITD"}],"1vzITD":[function(require,module,exports){
+
+
+
+},{"./problems/1":4,"./scope/hoisting.js":5,"./scope/scope.js":6,"./scope/this.js":7,"./webgl/webgl.js":8,"jquery":"1vzITD"}],"1vzITD":[function(require,module,exports){
 (function (global){
 (function browserifyShim(module, exports, define, browserify_shim__define__module__export__) {
 /*! jQuery v1.7.1 jquery.com | jquery.org/license */
@@ -9278,6 +9279,104 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 },{}],"jquery":[function(require,module,exports){
 module.exports=require('1vzITD');
 },{}],4:[function(require,module,exports){
+function funcky(o){
+	o = null;
+}
+
+var x = [];
+funcky(x);
+console.log(x); // []
+
+
+function swap(a, b){
+	var temp = a;
+	a = b;
+	b = temp;
+}
+
+var x = 1;
+var y = 2;
+console.log(x); // 1
+
+function identity(x){
+	return x;
+}
+
+var id = identity(4);
+console.log(id);
+
+function addNumbers(a, b){
+	return a + b;
+}
+
+var add = addNumbers(4,5);
+console.log(add)
+
+function multiNumbers(a, b){
+	return a * b;
+}
+
+var multi = multiNumbers(4,5);
+console.log(multi)
+
+
+function identifyf(x){
+	return function(){
+		return x;
+	}
+}
+
+idf = identifyf(3);
+console.log(idf()); // 3
+
+function addf(x){
+	return function(y){
+		return x + y;
+	}
+}
+
+function applyf(binary){
+	return function(x){
+		return function(y){
+			return binary(x, y);
+		};
+	};
+}
+
+addf = applyf(addNumbers);
+console.log(addf)
+console.log(addf(3)(4)); // 7
+console.log(applyf(multiNumbers)(5)(6)); // 30
+
+
+
+function curry(func, first){
+	return function(second){
+		return func(first, second);
+	}
+}
+
+
+add3 = curry(addf, 3);
+console.log(add3);
+console.log(add3(4));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+},{}],5:[function(require,module,exports){
 module.exports = function() { 
 
 
@@ -9304,13 +9403,20 @@ module.exports = function() {
 
 
 }
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = function() { 
 
-	console.log("working")
+	function init(){
+		console.log("initialized");
+	}
+
+
+	return {
+		init: init
+	}
 
 }
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports = function() { 
 
 	function foo(){
@@ -9326,5 +9432,32 @@ module.exports = function() {
 	foo();
 	o2.foo();
 	o3.foo();
+}
+},{}],8:[function(require,module,exports){
+module.exports = function() { 
+
+	// WebGL is a JavaScript API that allows us to implement 
+	// interactive 3D graphics, straight in the browser.
+
+	var gl;
+
+	function init(){
+		var canvas = document.getElementById("glcanvas");
+	
+		gl = initWebGL(canvas);
+
+		if(gl) {
+			gl.clearColor(0.0,0.0,0.0,1.0);
+			g.enable(gl.DEPTH_TEST);
+			gl.depthFunc(gl.LEQUAL);
+			gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+		}
+	}
+
+
+	return {
+		init: init
+	}
+
 }
 },{}]},{},[1])
