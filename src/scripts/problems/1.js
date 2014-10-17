@@ -25,12 +25,6 @@ function identity(x){
 var id = identity(4);
 // id = 4
 
-// Write two binary functions addNumbers + multiNumbers
-// and return there sum product
-function addNumbers(a, b){
-	return a + b;
-}
-
 var add = addNumbers(4,5);
 // console.log(add)
 
@@ -51,14 +45,25 @@ function identifyf(x){
 idf = identifyf(3);
 // idf() // 3
 
+
+
+addf(5)(5); // 10
+
+
+addf = applyf(addNumbers);
+// console.log(addf(2)(2))
+// console.log(applyf(multiNumbers)(5)(6)); // 30
+
+
+
+
+
 // A function that adds from two invocations
 function addf(x){
 	return function(y){
 		return x + y;
 	}
 }
-
-addf(5)(5); // 10
 
 // A function that takes a binary function, and
 // makes it callable with two invocations
@@ -70,10 +75,17 @@ function applyf(binary){
 	};
 }
 
-addf = applyf(addNumbers);
-// console.log(addf(2)(2))
-// console.log(applyf(multiNumbers)(5)(6)); // 30
+// Write two binary functions addNumbers + multiNumbers
+// and return there sum product
+function addNumbers(a, b){
+	return a + b;
+}
 
+function addNumbers() {
+	return Array.prototype.slice.call(arguments).reduce(function(prev, val) {
+		return prev + val;
+	}, 0);
+}
 
 // Write a function that takes a function as an argument,
 // and can return a function that can supply a second argument.
@@ -83,9 +95,22 @@ function curry(func, first){
 	}
 }
 
-add3 = curry(addNumbers, 3);
-console.log(add3(4)); // 7
-console.log(curry(multiNumbers, 5)(6))
+function properCurry(func) {
+	var args = Array.prototype.slice.call(arguments, 1);
+	return function() {
+		return func.apply(null, args.concat(Array.prototype.slice.call(arguments)));
+	}
+}
+
+
+inc = addf(1);
+inc = applyf(addNumbers)(1);
+inc = curry(addNumbers, 1);
+
+var fn = new Function('return function(a, b) { return a + b; }');
+
+
+
 
 
 
