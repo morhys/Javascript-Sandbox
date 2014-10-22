@@ -2,20 +2,19 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 var $ = require('jquery');
 
 
-var Scope = require('./scope/scope.js');
-var Hoisting = require('./scope/hoisting.js');
-var This = require('./scope/this.js');
-var WebGL = require('./webgl/webgl.js');
+// var Scope = require('./scope/scope.js');
+// var Hoisting = require('./scope/hoisting.js');
+var This = require('./scope/this.js')();
+// var WebGL = require('./webgl/webgl.js');
 
-var Problem1 = require('./problems/1');
-
-
+// var FirstClassFunctions = require('./functional-js/first-class/first-class-functions')();
 
 
 
 
 
-},{"./problems/1":4,"./scope/hoisting.js":5,"./scope/scope.js":6,"./scope/this.js":7,"./webgl/webgl.js":8,"jquery":"1vzITD"}],"1vzITD":[function(require,module,exports){
+
+},{"./scope/this.js":4,"jquery":"1vzITD"}],"1vzITD":[function(require,module,exports){
 (function (global){
 (function browserifyShim(module, exports, define, browserify_shim__define__module__export__) {
 /*! jQuery v1.7.1 jquery.com | jquery.org/license */
@@ -9279,192 +9278,180 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 },{}],"jquery":[function(require,module,exports){
 module.exports=require('1vzITD');
 },{}],4:[function(require,module,exports){
-function funcky(o){
-	o = null;
-}
-
-var x = [];
-funcky(x);
-// x = []
-
-function swap(a, b){
-	var temp = a;
-	a = b;
-	b = temp;
-}
-
-var x = 1;
-var y = 2;
-// x = 1
-
-// Write an argument that take and
-// argument and returns that argument
-function identity(x){
-	return x;
-}
-
-var id = identity(4);
-// id = 4
-
-// Write two binary functions addNumbers + multiNumbers
-// and return there sum product
-function addNumbers(a, b){
-	return a + b;
-}
-
-var add = addNumbers(4,5);
-// console.log(add)
-
-function multiNumbers(a, b){
-	return a * b;
-}
-
-var multi = multiNumbers(4,5);
-// console.log(multi)
-
-
-function identifyf(x){
-	return function(){
-		return x;
-	}
-}
-
-idf = identifyf(3);
-// idf() // 3
-
-// A function that adds from two invocations
-function addf(x){
-	return function(y){
-		return x + y;
-	}
-}
-
-addf(5)(5); // 10
-
-// A function that takes a binary function, and
-// makes it callable with two invocations
-function applyf(binary){
-	return function(x){
-		return function(y){
-			return binary(x, y);
-		};
-	};
-}
-
-addf = applyf(addNumbers);
-// console.log(addf(2)(2))
-// console.log(applyf(multiNumbers)(5)(6)); // 30
-
-
-// Write a function that takes a function as an argument,
-// and can return a function that can supply a second argument.
-function curry(func, first){
-	return function(second){
-		return func(first, second);
-	}
-}
-
-add3 = curry(addNumbers, 3);
-console.log(add3(4)); // 7
-console.log(curry(multiNumbers, 5)(6))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-},{}],5:[function(require,module,exports){
 module.exports = function() { 
 
+	// "use strict";
 
-	// How hoisting is set when javascript is compiled
-
-	a;
-	b;
-	var a = b;
-	var b = 2;
-	b;
-	a;
-
-
-	// When compiled
-
-	var a;
-	var b;
-	a;
-	b;
-	a = b;
-	b = 2;
-	b;
-	a;
-
-
-}
-},{}],6:[function(require,module,exports){
-module.exports = function() { 
-
-	function init(){
-		console.log("initialized");
+	function identify(){
+		return this.name.toUpperCase();
 	}
 
-
-	return {
-		init: init
+	function speak(){
+		var greeting = "Hello, I'm " + identify.call(this);
+		console.log(greeting);
 	}
 
-}
-},{}],7:[function(require,module,exports){
-module.exports = function() { 
-
-	function foo(){
-		console.log(this.bar);
+	var me = {
+		name: "Morhys"
 	}
 
-	console.log(this.bar)
+	var you = {
+		name: "Reader"
+	}
 
-	var bar = "bar1";
-	var o2 = { bar: "bar2", foo: foo };
-	var o3 = { bar: "bar3", foo: foo };
+	identify.call(me); // MORHYS
+	identify.call(you); // READER
 
-	foo();
-	o2.foo();
-	o3.foo();
-}
-},{}],8:[function(require,module,exports){
-module.exports = function() { 
+	speak.call(me); // Hello, I'm MORHYS
+	speak.call(you); // Hello, I'm READER
 
-	// WebGL is a JavaScript API that allows us to implement 
-	// interactive 3D graphics, straight in the browser.
+	console.log("------------------------------------");
 
-	var gl;
 
-	function init(){
-		var canvas = document.getElementById("glcanvas");
-	
-		gl = initWebGL(canvas);
+	// Instead of using this, you can explicitly pass in a context object to both
+	// identifyContext() and speakContext()
 
-		if(gl) {
-			gl.clearColor(0.0,0.0,0.0,1.0);
-			g.enable(gl.DEPTH_TEST);
-			gl.depthFunc(gl.LEQUAL);
-			gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+	function identifyContext(context){
+		return context.name.toUpperCase();
+	}
+
+	function speakContext(context){
+		var greeting = "Hello, I'm " + identifyContext(context);
+		console.log(greeting);
+	}
+
+	identifyContext(you);
+	speakContext(me);
+
+	console.log("------------------------------------");
+
+
+	// Track how many times foo is called
+
+	function foo(num){
+		console.log("foo: " + num);
+
+		// Keep track of how many times 'foo' is called
+		this.countNum++;
+	}
+
+	foo.countNum = 0;
+
+	var i;
+
+	for(i=0; i<10; i++){
+		if(i > 5){
+			foo(i);
 		}
 	}
 
+	console.log(foo.countNum); // 0? WTF
 
-	return {
-		init: init
+	console.log("------------------------------------");
+
+	function foo2(num){
+		console.log("foo: " + num);
+
+		// keep track of how many times foo2 is being called
+		data.count++;
 	}
+
+	var data = {
+		count: 0
+	}
+
+	var i;
+
+	for(i=0; i<10; i++){
+		if(i > 5){
+			foo2(i)
+		}
+	}
+
+	console.log(data.count); // 4
+
+	console.log("------------------------------------");
+
+	function foo(num) {
+	    console.log( "foo: " + num );
+
+	    // keep track of how many times `foo` is called
+	    foo.count++;
+	}
+
+	foo.count = 0;
+
+	var i;
+
+	for (i=0; i<10; i++) {
+	    if (i > 5) {
+	        foo( i );
+	    }
+	}
+	// foo: 6
+	// foo: 7
+	// foo: 8
+	// foo: 9
+
+	// how many times was `foo` called?
+	console.log( foo.count ); // 4
+
+	console.log("------------------------------------");
+
+
+	function trackFoo(num) {
+	    console.log( "foo: " + num );
+
+	    // keep track of how many times `foo` is called
+	    // Note: `this` IS actually `trackFoo` now, based on
+	    // how `trackFoo` is called (see below)
+	    this.count++;
+	}
+
+	trackFoo.count = 0;
+
+	var i;
+
+	for (i=0; i<10; i++) {
+	    if (i > 5) {
+	        // using `call(..)`, we ensure the `this`
+	        // points at the function object (`trackFoo`) itself
+	        trackFoo.call( trackFoo, i );
+	    }
+	}
+	// foo: 6
+	// foo: 7
+	// foo: 8
+	// foo: 9
+
+	// how many times was `trackFoo` called?
+	console.log( trackFoo.count ); // 4
+
+
+	function fooAgain(){
+		var a = 2;
+		this.bar();
+	}
+
+	function bar(){
+		console.log(this.a);
+	}
+
+	// fooAgain(); // referenceError: a is not defined
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 },{}]},{},[1])
