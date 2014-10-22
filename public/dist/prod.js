@@ -4,17 +4,15 @@ var $ = require('jquery');
 
 // var Scope = require('./scope/scope.js');
 // var Hoisting = require('./scope/hoisting.js');
-var This = require('./scope/this.js')();
 // var WebGL = require('./webgl/webgl.js');
-
 // var FirstClassFunctions = require('./functional-js/first-class/first-class-functions')();
 
 
+var This = require('./scope/this')();
+var ThisObjectPrototype = require('./scope/this-objectPrototype')();
 
 
-
-
-},{"./scope/this.js":4,"jquery":"1vzITD"}],"1vzITD":[function(require,module,exports){
+},{"./scope/this":5,"./scope/this-objectPrototype":4,"jquery":"1vzITD"}],"1vzITD":[function(require,module,exports){
 (function (global){
 (function browserifyShim(module, exports, define, browserify_shim__define__module__export__) {
 /*! jQuery v1.7.1 jquery.com | jquery.org/license */
@@ -9278,6 +9276,35 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 },{}],"jquery":[function(require,module,exports){
 module.exports=require('1vzITD');
 },{}],4:[function(require,module,exports){
+module.exports = function(){
+
+
+	// call site for 'this'
+
+	function baz(){
+		// call site is: baz
+		// so, out call-site is in the global scope
+		console.log("baz");
+		bar();
+	}
+
+	function bar(){
+		// call-stack is: "baz" -> "bar"
+		console.log("bar");
+		foo();
+	}
+
+	function foo(){
+		// call-stack is: 'baz' -> 'bar' -> 'foo'
+		// so, our call sire is in 'bar'
+
+		console.log("foo");
+	}
+
+	baz(); // <- call site for baz.
+
+}
+},{}],5:[function(require,module,exports){
 module.exports = function() { 
 
 	// "use strict";
