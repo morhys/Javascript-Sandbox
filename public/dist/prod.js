@@ -1,13 +1,16 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var $ = require('jquery');
 
-
 var Scope = require('./scope/scope.js');
 var Hoisting = require('./scope/hoisting.js');
 var This = require('./scope/this.js');
-var WebGL = require('./webgl/webgl.js');
 
-var Problem1 = require('./problems/1');
+document.addEventListener('DOMContentLoaded', function(){
+
+	// var aValue = "somevalue"
+	// console.log(window)
+	// global.aValue
+});
 
 
 
@@ -15,7 +18,8 @@ var Problem1 = require('./problems/1');
 
 
 
-},{"./problems/1":4,"./scope/hoisting.js":5,"./scope/scope.js":6,"./scope/this.js":7,"./webgl/webgl.js":8,"jquery":"1vzITD"}],"1vzITD":[function(require,module,exports){
+
+},{"./scope/hoisting.js":4,"./scope/scope.js":5,"./scope/this.js":6,"jquery":"1vzITD"}],"1vzITD":[function(require,module,exports){
 (function (global){
 (function browserifyShim(module, exports, define, browserify_shim__define__module__export__) {
 /*! jQuery v1.7.1 jquery.com | jquery.org/license */
@@ -9279,111 +9283,6 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 },{}],"jquery":[function(require,module,exports){
 module.exports=require('1vzITD');
 },{}],4:[function(require,module,exports){
-function funcky(o){
-	o = null;
-}
-
-var x = [];
-funcky(x);
-// x = []
-
-function swap(a, b){
-	var temp = a;
-	a = b;
-	b = temp;
-}
-
-var x = 1;
-var y = 2;
-// x = 1
-
-// Write an argument that take and
-// argument and returns that argument
-function identity(x){
-	return x;
-}
-
-var id = identity(4);
-// id = 4
-
-// Write two binary functions addNumbers + multiNumbers
-// and return there sum product
-function addNumbers(a, b){
-	return a + b;
-}
-
-var add = addNumbers(4,5);
-// console.log(add)
-
-function multiNumbers(a, b){
-	return a * b;
-}
-
-var multi = multiNumbers(4,5);
-// console.log(multi)
-
-
-function identifyf(x){
-	return function(){
-		return x;
-	}
-}
-
-idf = identifyf(3);
-// idf() // 3
-
-// A function that adds from two invocations
-function addf(x){
-	return function(y){
-		return x + y;
-	}
-}
-
-addf(5)(5); // 10
-
-// A function that takes a binary function, and
-// makes it callable with two invocations
-function applyf(binary){
-	return function(x){
-		return function(y){
-			return binary(x, y);
-		};
-	};
-}
-
-addf = applyf(addNumbers);
-// console.log(addf(2)(2))
-// console.log(applyf(multiNumbers)(5)(6)); // 30
-
-
-// Write a function that takes a function as an argument,
-// and can return a function that can supply a second argument.
-function curry(func, first){
-	return function(second){
-		return func(first, second);
-	}
-}
-
-add3 = curry(addNumbers, 3);
-console.log(add3(4)); // 7
-console.log(curry(multiNumbers, 5)(6))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-},{}],5:[function(require,module,exports){
 module.exports = function() { 
 
 
@@ -9410,7 +9309,7 @@ module.exports = function() {
 
 
 }
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = function() { 
 
 	function init(){
@@ -9419,52 +9318,30 @@ module.exports = function() {
 
 
 	return {
-		init: init
-	}
+        init: init
+    };
 
 }
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = function() { 
 
 	function foo(){
-		console.log(this.bar);
+		console.log('this.bar');
 	}
 
 	console.log(this.bar)
 
 	var bar = "bar1";
+	
 	var o2 = { bar: "bar2", foo: foo };
 	var o3 = { bar: "bar3", foo: foo };
 
 	foo();
 	o2.foo();
 	o3.foo();
-}
-},{}],8:[function(require,module,exports){
-module.exports = function() { 
-
-	// WebGL is a JavaScript API that allows us to implement 
-	// interactive 3D graphics, straight in the browser.
-
-	var gl;
-
-	function init(){
-		var canvas = document.getElementById("glcanvas");
-	
-		gl = initWebGL(canvas);
-
-		if(gl) {
-			gl.clearColor(0.0,0.0,0.0,1.0);
-			g.enable(gl.DEPTH_TEST);
-			gl.depthFunc(gl.LEQUAL);
-			gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
-		}
-	}
-
 
 	return {
-		init: init
+		foo: foo
 	}
-
 }
 },{}]},{},[1])

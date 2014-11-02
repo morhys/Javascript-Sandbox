@@ -25,7 +25,7 @@ function identity(x){
 var id = identity(4);
 // id = 4
 
-// Write two binary functions addNumbers + multiNumbers
+// two binary functions addNumbers + multiNumbers
 // and return there sum product
 function addNumbers(a, b){
 	return a + b;
@@ -75,7 +75,7 @@ addf = applyf(addNumbers);
 // console.log(applyf(multiNumbers)(5)(6)); // 30
 
 
-// Write a function that takes a function as an argument,
+// function that takes a function as an argument,
 // and can return a function that can supply a second argument.
 function curry(func, first){
 	return function(second){
