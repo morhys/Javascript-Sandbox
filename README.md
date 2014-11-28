@@ -1,6 +1,3 @@
-advanced-javascript
+Javascript Sandbox
 ===================
-scope, closure, object oriented, and asynchronous programming in JavaScript.
-this binding AKA Call-site
-===================
-this is actually a binding that is made when a function is invoked, and what it references is determined entirely by the call-site where the function is called.
+Examples/Experiments of scope, closure, object oriented/OLOO, and asynchronous programming in JavaScript.
