@@ -41,3 +41,52 @@ function speakIt(context) {
 
 identifyAgain( you ); // YOU
 speakIt( me ); //  Hello, I'm MORHYS
+
+
+function CountNumbers(number) {
+	console.log( "CountNumbers: " + number );
+
+	// keep track of how many times count number has been called
+	// Note: `this` IS actually `CountNumbers` now, based on
+    // how `CountNumbers` is called (see below)
+	this.count++;
+}
+
+CountNumbers.count = 0;
+
+var i;
+
+for(i = 0; i < 10; i++) {
+	if(i > 5) {
+		// using call(), which ensures the 'this'
+		// points to the function object (CountNumbers) itself
+		CountNumbers.call(CountNumbers, i);
+	}
+}
+
+// CountNumbers: 6
+// CountNumbers: 7
+// CountNumbers: 8
+// CountNumbers: 9
+
+
+console.log( CountNumbers.count ); // 4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
